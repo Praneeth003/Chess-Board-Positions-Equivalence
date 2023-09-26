@@ -58,8 +58,18 @@ print(M7)
 print("\n")
 print(M8)
 
-print("The second matrix is: ")
-print(X)
+M = [M1, M2, M3, M4, M5, M6, M7, M8]
+isEquivalent = False
 
-if np.array_equal(X, M8):
+for i in M:
+    if np.array_equal(X, i):
+        isEquivalent = True
+        break
+
+if isEquivalent:
     print(" There is an equivalence")
+else:
+    print(" There is no equivalence") 
+
+
+    
