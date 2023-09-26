@@ -7,6 +7,13 @@ A = np.array([
     [13,14,15,16]
     ])
 
+X = np.array([
+    [16,12,8,4],
+    [15,11,7,3],
+    [14,10,6,2],
+    [13,9,5,1]
+    ])
+
 def cwise_rotation(P):
     transposed_matrix = np.transpose(P)
     cwise_rotated_matrix = np.flip(transposed_matrix, axis=1)
@@ -51,7 +58,8 @@ print(M7)
 print("\n")
 print(M8)
 
+print("The second matrix is: ")
+print(X)
 
-# print(projection_horizontal(A))
-# print(projection_vertical(A))
-# print()
+if np.array_equal(X, M8):
+    print(" There is an equivalence")
