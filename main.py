@@ -51,7 +51,7 @@ M8 = projection_vertical(D)
 # print("\n")
 # print(M8)
 
-M = [M1, M2, M3, M4, M5, M6, M7, M8]
+M = [M1, M2, M3, M4, M5, M6, M7, M8, B, C, D]
 isEquivalent = False
 
 for i in M:
