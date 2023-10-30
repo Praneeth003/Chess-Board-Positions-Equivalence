@@ -60,8 +60,7 @@ else:
     M7 = projection_horizontal(D)
     M8 = projection_vertical(D)
 
-
-    M = [M1, M2, M3, M4, M5, M6, M7, M8, A, B, C, D]
+    M = [A, B, C, D, M1, M2, M3, M4]
     isEquivalent = False
 
     for i in M:
