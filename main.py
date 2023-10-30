@@ -1,8 +1,11 @@
 from kp import *
 import numpy as np
 
-posi1 = 'b2K4;2p5;3k4;1Q6;5P2;1B6;16'
-posi2 = '16;1B6;5P2;1Q6;3k4;2p5;b2K4'
+# posi1 = 'b2K4;2p5;3k4;1Q6;5P2;1B6;16'
+# posi2 = '16;1B6;5P2;1Q6;3k4;2p5;b2K4'
+
+posi1 = input("Enter the first board position:")
+posi2 = input("Enter the second board position:")
 A = np.array(position(posi1))
 X = np.array(position(posi2))
 
