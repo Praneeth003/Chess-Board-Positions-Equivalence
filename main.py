@@ -54,10 +54,10 @@ dictionary = {
 }
 
 #Function to create a file and write corresponding positions into it.
-def createFile(x,y):
+def createFile(l, m):
     # Open a file for writing
-    with open('./data/' + x + '.txt', 'w') as file:
-        for row in y:
+    with open('./data/' + l + '.txt', 'w') as file:
+        for row in m:
             # Convert row into string
             rowString = str(row)
             # Write each row to the file
@@ -75,10 +75,25 @@ def exitsPawn(A):
             return True
     return False
 
+#Converting X into List of Strings format
+Y =[]
+for row in X:
+    Y.append(str(row))
+print(Y)
+
+
+
+def readFile(l):
+    with open('./data/' + l + '.txt', 'r') as file:
+        content = []
+        for line in file:
+            content.append(line.strip())
+    # content holds the data in List of Strings format
+    return content
+
 
 # If pawn exists, only check with the orginal position and its vertical projection position
 # No need to check with other possibilities to preserve the game scenario
-
 
 
 
