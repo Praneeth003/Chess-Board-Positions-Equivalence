@@ -1,14 +1,10 @@
 def position(posi):
+    
     #Removing white spaces in the string
     posi = posi.replace(" ","")
-    #print("position is:" + posi)
-
 
     # Converting the string into list
     list = posi.split(";")
-    #print("List Representation is:")
-    #print(list)
-
 
     # This list stores information in terms of rows.
     rowList = []
@@ -30,16 +26,12 @@ def position(posi):
             splitting(i)
         else:
             rowList.append(i)
-    #print("Row List is:")
-    #print(rowList)
 
-
-
-    # This function takes: a string and an empty string as input
+    # This function takes a string and an empty string as input
     # It returns the list with appropriate ' ' as required
     def helper(str1,ch):
         for j in str1:
-            if j.isdigit():
+            if j.isdigit():   
                 if int(j) == 0:
                     continue
                 elif int(j) == 1:
@@ -54,7 +46,7 @@ def position(posi):
     List_Of_Lists = []
     for k in range(8):
         List_Of_Lists.append(helper(rowList[k],[]))
-    #print(List_Of_Lists)
+    
     return List_Of_Lists
 
 
