@@ -1,6 +1,11 @@
 from inputConverter import *
 import numpy as np
 
+print("If you want to check for equivalence between two positions, enter 1")
+print("If you want to check if the position is already in the database, enter 2")
+print("If you want to add a new position to the database, enter 3")
+choice = int(input("Enter your choice: "))
+
 posi1 = input("Enter the first board position:")
 posi2 = input("Enter the second board position:")
 
