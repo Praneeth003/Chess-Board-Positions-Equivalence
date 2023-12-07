@@ -1,10 +1,11 @@
 from inputConverter import *
 import numpy as np
+import os
 
 # Function to create a file and write corresponding position into it
 def createFile(l, m):
     # Open a file for writing
-    with open('./data/' + l + '.txt', 'w') as file:
+    with open('./database/tempData/' + l + '.txt', 'w') as file:
         for row in m:
             # Convert row into string
             rowString = str(row)
@@ -14,7 +15,7 @@ def createFile(l, m):
 
 # Function to open a file and read position from it
 def readFile(l):
-    with open('./data/' + l + '.txt', 'r') as file:
+    with open('./database/tempData/' + l + '.txt', 'r') as file:
         content = []
         for line in file:
             content.append(line.strip())
@@ -110,7 +111,7 @@ if choice == 1:
         else:
             print("There is no equivalence!")
 
-    #If there is no pawn, then check with all the possibiltie positions 
+    #If there is no pawn, then check with all the possible positions 
     else:
         M = ["A","B","C","D","M1","M2","M3","M4"]
         isEquivalent = False
@@ -120,11 +121,67 @@ if choice == 1:
                 isEquivalent = True
                 break
         if isEquivalent:
-            print("Thre is an equivalence!")
+            print("There is an equivalence!")
         else:
             print("There is no equivalence!")
 
+elif choice == 2:
+    posi = input("Enter the board position:")
+    A = np.array(position(posi))
+    
+    # Using os.walk to iterate through all the files in the directory
+    path, dirs, files = next(os.walk("./database/storedData"))
 
+    # Converting A into List of Strings format
+    Y =[]
+    for row in A:
+        Y.append(str(row))
+    Y = np.array(Y)
+    
+    # Iterating through all the files in the directory
+    for i in files:
+        with open('./database/storedData/' + i, 'r') as file:
+            content = []
+            for line in file:
+                content.append(line.strip())
+        # content holds the data in List of Strings format
+        if np.array_equal(Y, np.array(content)):
+            print("The position is already in the database!")
+            break
+    else:
+        print("The position is not in the database!")
 
+elif choice == 3:
+    posi = input("Enter the board position:")
+    A = np.array(position(posi))
+    
+    # Using os.walk to iterate through all the files in the directory
+    path, dirs, files = next(os.walk("./database/storedData"))
 
-
+    # Converting A into List of Strings format
+    Y =[]
+    for row in A:
+        Y.append(str(row))
+    Y = np.array(Y)
+    
+    # Iterating through all the files in the directory
+    for i in files:
+        with open('./database/storedData/' + i, 'r') as file:
+            content = []
+            for line in file:
+                content.append(line.strip())
+        # content holds the data in List of Strings format
+        if np.array_equal(Y, np.array(content)):
+            print("The position is already in the database!")
+            break
+    else:
+        # If the position is not in the database, then add it to the database
+        # Creating a new file for the new position
+        with open('./database/storedData/' + 'f' + str(len(files) + 1) + '.txt', 'w') as file:
+            for row in Y:
+                # Convert row into string
+                rowString = str(row)
+                # Write each row to the file
+                file.write(rowString + '\n')
+        print("The position is added to the database!")
+        
