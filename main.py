@@ -2,28 +2,6 @@ from inputConverter import *
 import numpy as np
 import os
 
-# Function to create a file and write corresponding position into it
-def createFile(l, m):
-    # Open a file for writing
-    with open('./database/tempData/' + l + '.txt', 'w') as file:
-        for row in m:
-            # Convert row into string
-            rowString = str(row)
-            # Write each row to the file
-            file.write(rowString + '\n')
-
-
-# Function to open a file and read position from it
-def readFile(l):
-    with open('./database/tempData/' + l + '.txt', 'r') as file:
-        content = []
-        for line in file:
-            content.append(line.strip())
-    # content holds the data in List of Strings format
-    return np.array(content)
-
-
-
 print("If you want to check for equivalence between two positions, enter 1")
 print("If you want to check if the position is already in the database, enter 2")
 print("If you want to add a new position to the database, enter 3")
@@ -65,6 +43,26 @@ if choice == 1:
     D = cwise_rotation(C)
     M7 = projection_horizontal(D)
     M8 = projection_vertical(D)
+
+        # Function to create a file and write corresponding position into it
+    def createFile(l, m):
+        # Open a file for writing
+        with open('./database/tempData/' + l + '.txt', 'w') as file:
+            for row in m:
+                # Convert row into string
+                rowString = str(row)
+                # Write each row to the file
+                file.write(rowString + '\n')
+
+
+    # Function to open a file and read position from it
+    def readFile(l):
+        with open('./database/tempData/' + l + '.txt', 'r') as file:
+            content = []
+            for line in file:
+                content.append(line.strip())
+        # content holds the data in List of Strings format
+        return np.array(content)
 
     # Using dictionary to help placing positions in corresponding filenames
     dictionary = {
