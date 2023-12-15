@@ -102,33 +102,25 @@ if choice == 1:
 
     # If pawn exists, only check with the orginal position and its vertical projection position
     # No need to check with other possibilities to preserve the game scenario
+    #Else, check with all the possible positions
     if(exitsPawn(A)):
         M = ["A", "M2"]
-        isEquivalent = False
-        
-        for i in M:
-            if np.array_equal(Y, readFile(i)):
-                isEquivalent = True
-                break
-        
-        if isEquivalent:
-            print("There is an equivalence!")
-        else:
-            print("There is no equivalence!")
-
-    #If there is no pawn, then check with all the possible positions 
     else:
         M = ["A","B","C","D","M1","M2","M3","M4"]
-        isEquivalent = False
+    
+    flag = False
+        
+    for i in M:
+        if np.array_equal(Y, readFile(i)):
+            flag = True
+            break
+    
+    if flag == True:
+        print("There is an equivalence!!")
+    else:
+        print("There is no equivalence!!")
 
-        for i in M:
-            if np.array_equal(Y,readFile(i)):
-                isEquivalent = True
-                break
-        if isEquivalent:
-            print("There is an equivalence!")
-        else:
-            print("There is no equivalence!")
+  
 
 elif choice == 2:
     posi = input("Enter the board position:")
@@ -158,14 +150,17 @@ elif choice == 2:
         # content holds the data in List of Strings format
         for j in M:
             if np.array_equal(np.array(content), readFile(j)):
-                print("Either the position or its equivalent position is already in the database!")
                 flag = True
                 break
         if flag == True:
             break
     
     if flag == False:
-        print("The position or its equivalent position is not in the database!")
+        print("This position or its equivalent position is not in the database!!")
+    
+    else:
+        print("The position or its equivalent position exists in the database!!")
+
 
 elif choice == 3:
     posi = input("Enter the board position:")
@@ -173,6 +168,46 @@ elif choice == 3:
     
     # Using os.walk to iterate through all the files in the directory
     path, dirs, files = next(os.walk("./database/storedData"))
+
+    generatePositions(A)
+
+    #if there exitst a pawn in the board, then only check with the original position and its vertical projection position, 
+    #else check with all the possible positions
+    if(exitsPawn(A)):
+        M = ["A", "M2"]
+    else:
+        M = ["A","B","C","D","M1","M2","M3","M4"]
+    
+
+    flag = False
+    
+    # Iterating through all the files in the directory
+    for i in files:
+        with open('./database/storedData/' + i, 'r') as file:
+            content = []
+            for line in file:
+                content.append(line.strip())
+        # content holds the data in List of Strings format
+        for j in M:
+            if np.array_equal(np.array(content), readFile(j)):
+                flag = True
+                break
+        if flag == True:
+            break
+    
+    if flag == True:
+        print("The position or its equivalent position already exists in the database!!")
+
+    else:
+        # Creating a new file and writing the position into it
+        with open('./database/storedData/' + str(len(files)+1) + '.txt', 'w') as file:
+            for row in A:
+                # Convert row into string
+                rowString = str(row)
+                # Write each row to the file
+                file.write(rowString + '\n')
+        print("The position is added to the database!!")
+
     
     
 
