@@ -3,15 +3,21 @@ import numpy as np
 import os
 
 print("If you want to check for equivalence between two positions, enter 1")
-print("If you want to check if the position is already in the database, enter 2")
+print("If you want to check if the position or its equivalent position is already in the database, enter 2")
 print("If you want to add a new position to the database, enter 3")
 
-choice = int(input("Enter your choice: "))
-if choice == 1:
-    posi1 = input("Enter the first board position:")
-    posi2 = input("Enter the second board position:")
-    A = np.array(position(posi1))
-    X = np.array(position(posi2))
+
+# Function to open a file and read position from it
+def readFile(l):
+    with open('./database/tempData/' + l + '.txt', 'r') as file:
+        content = []
+        for line in file:
+            content.append(line.strip())
+    # content holds the data in List of Strings format
+    return np.array(content)
+
+
+def generatePositions(A):
     # Function to rotate the position of board in clockwise direction
     def cwise_rotation(P):
         transposed_matrix = np.transpose(P)
@@ -28,6 +34,16 @@ if choice == 1:
         new_matrix = np.flip(P, axis=1)
         return new_matrix
 
+    # Function to create a file and write corresponding position into it
+    def createFile(l, m):
+        # Open a file for writing
+        with open('./database/tempData/' + l + '.txt', 'w') as file:
+            for row in m:
+                # Convert row into string
+                rowString = str(row)
+                # Write each row to the file
+                file.write(rowString + '\n')
+    
     # All the possible positions assigned to respective variables
     M1 = projection_horizontal(A)
     M2 = projection_vertical(A)
@@ -44,26 +60,6 @@ if choice == 1:
     M7 = projection_horizontal(D)
     M8 = projection_vertical(D)
 
-        # Function to create a file and write corresponding position into it
-    def createFile(l, m):
-        # Open a file for writing
-        with open('./database/tempData/' + l + '.txt', 'w') as file:
-            for row in m:
-                # Convert row into string
-                rowString = str(row)
-                # Write each row to the file
-                file.write(rowString + '\n')
-
-
-    # Function to open a file and read position from it
-    def readFile(l):
-        with open('./database/tempData/' + l + '.txt', 'r') as file:
-            content = []
-            for line in file:
-                content.append(line.strip())
-        # content holds the data in List of Strings format
-        return np.array(content)
-
     # Using dictionary to help placing positions in corresponding filenames
     dictionary = {
         "A" : A,
@@ -79,6 +75,17 @@ if choice == 1:
     # Iterating to create all the respective files
     for key, value in dictionary.items():
         createFile(key, value)
+
+
+choice = int(input("Enter your choice: "))
+if choice == 1:
+    posi1 = input("Enter the first board position:")
+    posi2 = input("Enter the second board position:")
+    A = np.array(position(posi1))
+    X = np.array(position(posi2))
+    
+    # Generating all the possible positions for the first board position and storing them in separate files
+    generatePositions(A)
 
     # Function to check if there exitsts any pawn in the board 
     def exitsPawn(A):
