@@ -16,7 +16,14 @@ def readFile(l):
     # content holds the data in List of Strings format
     return np.array(content)
 
+# Function to check if there exitsts any pawn in the board 
+def exitsPawn(A):
+    for row in A:
+        if 'p' in row or 'P' in row:
+            return True
+    return False
 
+# Function to generate all the possible positions for a given board position and store them in separate files
 def generatePositions(A):
     # Function to rotate the position of board in clockwise direction
     def cwise_rotation(P):
@@ -87,13 +94,6 @@ if choice == 1:
     # Generating all the possible positions for the first board position and storing them in separate files
     generatePositions(A)
 
-    # Function to check if there exitsts any pawn in the board 
-    def exitsPawn(A):
-        for row in A:
-            if 'p' in row or 'P' in row:
-                return True
-        return False
-
     # Converting X into List of Strings format
     Y =[]
     for row in X:
@@ -137,11 +137,17 @@ elif choice == 2:
     # Using os.walk to iterate through all the files in the directory
     path, dirs, files = next(os.walk("./database/storedData"))
 
-    # Converting A into List of Strings format
-    Y =[]
-    for row in A:
-        Y.append(str(row))
-    Y = np.array(Y)
+    generatePositions(A)
+
+    #if there exitst a pawn in the board, then only check with the original position and its vertical projection position, 
+    #else check with all the possible positions
+    if(exitsPawn(A)):
+        M = ["A", "M2"]
+    else:
+        M = ["A","B","C","D","M1","M2","M3","M4"]
+    
+
+    flag = False
     
     # Iterating through all the files in the directory
     for i in files:
@@ -150,11 +156,16 @@ elif choice == 2:
             for line in file:
                 content.append(line.strip())
         # content holds the data in List of Strings format
-        if np.array_equal(Y, np.array(content)):
-            print("The position is already in the database!")
+        for j in M:
+            if np.array_equal(np.array(content), readFile(j)):
+                print("Either the position or its equivalent position is already in the database!")
+                flag = True
+                break
+        if flag == True:
             break
-    else:
-        print("The position is not in the database!")
+    
+    if flag == False:
+        print("The position or its equivalent position is not in the database!")
 
 elif choice == 3:
     posi = input("Enter the board position:")
@@ -162,31 +173,7 @@ elif choice == 3:
     
     # Using os.walk to iterate through all the files in the directory
     path, dirs, files = next(os.walk("./database/storedData"))
-
-    # Converting A into List of Strings format
-    Y =[]
-    for row in A:
-        Y.append(str(row))
-    Y = np.array(Y)
     
-    # Iterating through all the files in the directory
-    for i in files:
-        with open('./database/storedData/' + i, 'r') as file:
-            content = []
-            for line in file:
-                content.append(line.strip())
-        # content holds the data in List of Strings format
-        if np.array_equal(Y, np.array(content)):
-            print("The position is already in the database!")
-            break
-    else:
-        # If the position is not in the database, then add it to the database
-        # Creating a new file for the new position
-        with open('./database/storedData/' + 'f' + str(len(files) + 1) + '.txt', 'w') as file:
-            for row in Y:
-                # Convert row into string
-                rowString = str(row)
-                # Write each row to the file
-                file.write(rowString + '\n')
-        print("The position is added to the database!")
+    
+
         
